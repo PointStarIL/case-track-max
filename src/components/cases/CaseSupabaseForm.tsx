@@ -35,7 +35,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   ClientName: z.string().min(1, { message: 'שם לקוח נדרש' }),
-  CaseNum: z.string().min(1, { message: 'מספר תיק נדרש' }).transform(val => Number(val)),
+  CaseNum: z.coerce.number().min(1, { message: 'מספר תיק נדרש' }), // Using coerce.number() to properly convert string to number
   CaseOpenDate: z.string().min(1, { message: 'תאריך פתיחה נדרש' }),
   CaseDescription: z.string().min(1, { message: 'תיאור התיק נדרש' }),
   OpposingParty: z.string().optional().nullable(),
@@ -76,7 +76,7 @@ export function CaseSupabaseForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       ClientName: '',
-      CaseNum: '',
+      CaseNum: undefined, // Changed to undefined for number type
       CaseOpenDate: new Date().toISOString().split('T')[0],
       CaseDescription: '',
       OpposingParty: '',
@@ -95,7 +95,7 @@ export function CaseSupabaseForm() {
         .insert([
           {
             ClientName: data.ClientName,
-            CaseNum: data.CaseNum,
+            CaseNum: data.CaseNum, // Now properly typed as number
             CaseOpenDate: data.CaseOpenDate,
             CaseDescription: data.CaseDescription,
             OpposingParty: data.OpposingParty,
