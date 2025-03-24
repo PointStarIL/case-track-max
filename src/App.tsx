@@ -9,6 +9,7 @@ import Cases from "./pages/Cases";
 import CaseNew from "./pages/CaseNew";
 import CaseEdit from "./pages/CaseEdit";
 import CaseDetail from "./pages/CaseDetail";
+import CaseSupabaseNew from "./pages/CaseSupabaseNew"; // Add this new import
 import Tasks from "./pages/Tasks";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/cases" element={<Cases />} />
           <Route path="/cases/new" element={<CaseNew />} />
+          <Route path="/cases/new-db" element={<CaseSupabaseNew />} /> {/* Add this new route */}
           <Route path="/cases/edit/:id" element={<CaseEdit />} />
           <Route path="/cases/:id" element={<CaseDetail />} />
           <Route path="/tasks" element={<Tasks />} />
