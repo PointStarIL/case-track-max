@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useCasesStore } from '@/store/casesStore';
 import { Button } from '@/components/ui/button';
@@ -103,9 +102,8 @@ export default function Settings() {
         })
       });
       
-      toast({
-        title: "Webhook Test Sent",
-        description: "The request was sent to your Zapier webhook. Please check your Zap's history to confirm it was triggered.",
+      toast.success('Webhook Test Sent', {
+        description: "The request was sent to your Zapier webhook. Please check your Zap's history to confirm it was triggered."
       });
     } catch (error) {
       console.error("Error testing webhook:", error);

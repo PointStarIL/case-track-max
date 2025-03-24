@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCasesStore } from '@/store/casesStore';
 import { 
   Calendar, 
@@ -56,16 +56,19 @@ const statusColors: Record<string, string> = {
   settled: 'bg-teal-500',
 };
 
-export function CaseDetail() {
-  const { id } = useParams<{ id: string }>();
+interface CaseDetailProps {
+  id: string;
+}
+
+export function CaseDetail({ id }: CaseDetailProps) {
   const navigate = useNavigate();
   const { getCaseById, deleteCase } = useCasesStore();
   const [openTaskForm, setOpenTaskForm] = React.useState(false);
 
-  const caseItem = getCaseById(id!);
+  const caseItem = getCaseById(id);
 
   const handleDeleteCase = () => {
-    deleteCase(id!);
+    deleteCase(id);
     toast.success('Case deleted successfully');
     navigate('/cases');
   };

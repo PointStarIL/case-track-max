@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -353,6 +354,172 @@ function getPayloadConfigFromPayload(
     : config[key as keyof typeof config]
 }
 
+// Add missing chart component exports to fix errors
+const BarChart = ({ 
+  data, 
+  index, 
+  categories, 
+  colors, 
+  valueFormatter, 
+  ...props 
+}: any) => (
+  <ChartContainer 
+    config={{}} 
+    {...props}>
+    <RechartsPrimitive.BarChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+      <RechartsPrimitive.XAxis dataKey={index} />
+      <RechartsPrimitive.YAxis />
+      <RechartsPrimitive.Tooltip />
+      <RechartsPrimitive.Legend />
+      {categories.map((category: string, idx: number) => (
+        <RechartsPrimitive.Bar 
+          key={category} 
+          dataKey={category} 
+          fill={colors[idx] || "#8884d8"} 
+        />
+      ))}
+    </RechartsPrimitive.BarChart>
+  </ChartContainer>
+);
+
+const LineChart = ({ 
+  data, 
+  index, 
+  categories, 
+  colors, 
+  valueFormatter, 
+  ...props 
+}: any) => (
+  <ChartContainer 
+    config={{}} 
+    {...props}>
+    <RechartsPrimitive.LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+      <RechartsPrimitive.XAxis dataKey={index} />
+      <RechartsPrimitive.YAxis />
+      <RechartsPrimitive.CartesianGrid strokeDasharray="3 3" />
+      <RechartsPrimitive.Tooltip />
+      <RechartsPrimitive.Legend />
+      {categories.map((category: string, idx: number) => (
+        <RechartsPrimitive.Line 
+          key={category} 
+          type="monotone" 
+          dataKey={category} 
+          stroke={colors[idx] || "#8884d8"} 
+        />
+      ))}
+    </RechartsPrimitive.LineChart>
+  </ChartContainer>
+);
+
+const DonutChart = ({ 
+  data, 
+  index, 
+  category, 
+  colors, 
+  valueFormatter, 
+  ...props 
+}: any) => (
+  <ChartContainer 
+    config={{}} 
+    {...props}>
+    <RechartsPrimitive.PieChart margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+      <RechartsPrimitive.Pie 
+        data={data} 
+        dataKey={category} 
+        nameKey={index} 
+        cx="50%" 
+        cy="50%" 
+        innerRadius={60}
+        outerRadius={80} 
+        fill="#8884d8"
+        paddingAngle={2}
+      >
+        {data.map((entry: any, idx: number) => (
+          <RechartsPrimitive.Cell 
+            key={`cell-${idx}`} 
+            fill={colors[idx] || entry.color || "#8884d8"} 
+          />
+        ))}
+      </RechartsPrimitive.Pie>
+      <RechartsPrimitive.Tooltip />
+      <RechartsPrimitive.Legend />
+    </RechartsPrimitive.PieChart>
+  </ChartContainer>
+);
+
+const PieChart = ({ 
+  data, 
+  index, 
+  category, 
+  colors, 
+  valueFormatter, 
+  ...props 
+}: any) => (
+  <ChartContainer 
+    config={{}} 
+    {...props}>
+    <RechartsPrimitive.PieChart margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+      <RechartsPrimitive.Pie 
+        data={data} 
+        dataKey={category} 
+        nameKey={index} 
+        cx="50%" 
+        cy="50%" 
+        outerRadius={80} 
+        fill="#8884d8"
+        label
+      >
+        {data.map((entry: any, idx: number) => (
+          <RechartsPrimitive.Cell 
+            key={`cell-${idx}`} 
+            fill={colors[idx] || entry.color || "#8884d8"} 
+          />
+        ))}
+      </RechartsPrimitive.Pie>
+      <RechartsPrimitive.Tooltip />
+      <RechartsPrimitive.Legend />
+    </RechartsPrimitive.PieChart>
+  </ChartContainer>
+);
+
+const AreaChart = ({ 
+  data, 
+  index, 
+  categories, 
+  colors, 
+  valueFormatter,
+  showLegend,
+  showGridLines,
+  startEndOnly, 
+  ...props 
+}: any) => (
+  <ChartContainer 
+    config={{}} 
+    {...props}>
+    <RechartsPrimitive.AreaChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+      <RechartsPrimitive.XAxis 
+        dataKey={index} 
+        tickLine={!startEndOnly}
+        axisLine={!startEndOnly}
+        tick={!startEndOnly}
+      />
+      <RechartsPrimitive.YAxis />
+      {showGridLines && <RechartsPrimitive.CartesianGrid strokeDasharray="3 3" />}
+      <RechartsPrimitive.Tooltip />
+      {showLegend && <RechartsPrimitive.Legend />}
+      {categories.map((category: string, idx: number) => (
+        <RechartsPrimitive.Area 
+          key={category} 
+          type="monotone" 
+          dataKey={category} 
+          fill={colors[idx] || "#8884d8"} 
+          stroke={colors[idx] || "#8884d8"}
+        />
+      ))}
+    </RechartsPrimitive.AreaChart>
+  </ChartContainer>
+);
+
 export {
   ChartContainer,
   ChartTooltip,
@@ -360,4 +527,9 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  BarChart,
+  LineChart,
+  DonutChart,
+  PieChart,
+  AreaChart
 }
